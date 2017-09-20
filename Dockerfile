@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --no-cache curl gettext jq bash
+RUN apk add --no-cache curl gettext jq bash docker
 
 COPY install/rancher-cli.sh /install/rancher-cli.sh
 RUN /install/rancher-cli.sh
