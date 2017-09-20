@@ -6,13 +6,8 @@ echo "Installing rancher-cli"
 
 get_version ()
 {
-    git clone -n https://github.com/rancher/cli.git
-
-    cd cli
-    TAG="$(git describe --tags --abbrev=0)"
-
-    cd ..
-    rm -rf cli
+    API_URL=https://api.github.com/repos/rancher/cli/tags
+    TAG=$(curl -s $API_URL | jq -r '[.[] | .name] | map(select(match("^v\\d+.\\d+.\\d+$"))) | first')
 
     echo "$TAG"
 }
@@ -30,7 +25,7 @@ download_binary ()
     echo "/tmp/rancher-$VERSION/rancher"
 }
 
-apk add --no-cache -t .deps git
+apk add --no-cache -t .deps jq
 
 TAG="$(get_version)"
 BINARY="$(download_binary "$TAG")"
