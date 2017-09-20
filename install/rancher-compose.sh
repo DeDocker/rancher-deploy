@@ -6,13 +6,8 @@ echo "Installing rancher-compose"
 
 get_version ()
 {
-    git clone -n https://github.com/rancher/rancher-compose.git
-
-    cd rancher-compose
-    TAG="$(git describe --tags --abbrev=0)"
-
-    cd ..
-    rm -rf rancher-compose
+    API_URL=https://api.github.com/repos/rancher/rancher-compose/tags
+    TAG=$(curl -s $API_URL | jq -r '[.[] | .name] | map(select(match("^v\\d+.\\d+.\\d+$"))) | first')
 
     echo "$TAG"
 }
@@ -30,7 +25,7 @@ download_binary ()
     echo "/tmp/rancher-compose-$VERSION/rancher-compose"
 }
 
-apk add --no-cache -t .deps git curl
+apk add --no-cache -t .deps jq curl
 
 TAG="$(get_version)"
 BINARY="$(download_binary "$TAG")"
