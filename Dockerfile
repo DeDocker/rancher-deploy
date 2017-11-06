@@ -13,7 +13,4 @@ RUN /install/torus-cli.sh
 
 COPY ./bin /usr/bin
 
-COPY entrypoint.sh /entrypoint.sh
 SHELL ["/bin/bash"]
-
-ENTRYPOINT ["/entrypoint.sh"]
