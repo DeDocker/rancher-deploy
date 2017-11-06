@@ -1,4 +1,4 @@
-# desmart/gaucho-deploy
+# desmart/rancher-deploy
 
 Basic tool stack required for our Rancher-based deployment.
 
