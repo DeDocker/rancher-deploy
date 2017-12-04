@@ -11,6 +11,9 @@ RUN /install/rancher-compose.sh
 COPY ./install/torus-cli.sh /install/torus-cli.sh
 RUN /install/torus-cli.sh
 
+COPY ./install/jo.sh /install/jo.sh
+RUN /install/jo.sh
+
 COPY ./bin /usr/bin
 
 SHELL ["/bin/bash"]
