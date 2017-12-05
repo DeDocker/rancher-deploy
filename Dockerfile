@@ -1,6 +1,7 @@
-FROM alpine:latest
+FROM alpine:3.7
 
-RUN apk add --no-cache curl gettext jq bash docker
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.6/main' >> /etc/apk/repositories
+RUN apk add --no-cache curl gettext jq 'bash<4.4' docker
 
 COPY install/rancher-cli.sh /install/rancher-cli.sh
 RUN /install/rancher-cli.sh
