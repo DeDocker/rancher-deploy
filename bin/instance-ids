@@ -1,0 +1,27 @@
+#!/bin/bash
+# vim: set ft=sh
+
+help () {
+  cat <<-EOL
+    Displays instance ids of selected container
+
+    usage:
+      instance-ids [RANCHER_CONTAINER]
+
+    examples:
+      instance-ids stack/container
+EOL
+}
+
+main () {
+  declare -r RANCHER_CONTAINER="$1"
+
+  rancher ps --format json | jq -s -r ".[] | select(.Name==\"${RANCHER_CONTAINER}\") | .Service.instanceIds | .[]"
+}
+
+if [ $# -lt 1 ]; then
+  help
+  exit 1
+fi
+
+main "$@"
