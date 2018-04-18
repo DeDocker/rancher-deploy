@@ -27,8 +27,9 @@ download_binary ()
 
 apk add --no-cache -t .deps jq
 
-TAG="$(get_version)"
-BINARY="$(download_binary "$TAG")"
+# TAG="$(get_version)"
+# BINARY="$(download_binary "$TAG")"
+BINARY="$(download_binary "v0.6.8")"
 
 mv "$BINARY" /usr/bin
 rm -rf "$(dirname "$BINARY")"
