@@ -20,6 +20,9 @@ RUN /install/torus-cli.sh \
 COPY ./install/jo.sh /install/jo.sh
 RUN /install/jo.sh
 
+RUN curl -o- https://raw.githubusercontent.com/manifoldco/manifold-cli/master/install.sh | sh
+ENV PATH="${PATH}:/root/.manifold/bin"
+
 COPY ./bin /usr/bin
 
 SHELL ["/bin/bash"]

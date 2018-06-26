@@ -6,6 +6,7 @@ It includes:
 * [rancher-cli](https://github.com/rancher/cli)
 * [rancher-compose](https://github.com/rancher/rancher-compose)
 * [torus-cli](https://github.com/manifoldco/torus-cli)
+* [manifold-cli](https://docs.manifold.co/docs/install-77T6auwaaIQcgA4QGouO0)
 * [jo](https://github.com/jpmens/jo)
 * `gettext` package
 
