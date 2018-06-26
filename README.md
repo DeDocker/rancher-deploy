@@ -14,14 +14,28 @@ It includes:
 
 To keep secrets we're using [Torus](https://www.torus.sh/). 
 
-Image provides `t` alias (which is nothing more than `torus run -s "$TORUS_SERVICE" -e "$TORUS_ENV"`).  
-It works only for [linked repositories](https://www.torus.sh/docs/latest/commands/project-structure#link).
+Image provides following aliases:
+
+* `t` alias for `torus run -s "$TORUS_SERVICE" -e "$TORUS_ENV"`
+* `m` alias for `manifold run`
 
 ## Configuration
 
-To configure Torus it's required to provide following env variables:
+### Torus
+
+Provide following env variables:
 
 * `TORUS_TOKEN_ID` id of [machine](https://www.torus.sh/docs/latest/concepts/policies#machines)
 * `TORUS_TOKEN_SECRET`
 * `TORUS_ENV` name of the environment
 * `TORUS_SERVICE` name of the service
+
+It's also required to [link repository](https://www.torus.sh/docs/latest/commands/project-structure#link)
+
+### Manifold
+
+Provide following env variables:
+
+* `MANIFOLD_API_TOKEN`
+* `MANIFOLD_TEAM`
+* `MANIFOLD_PROJECT`

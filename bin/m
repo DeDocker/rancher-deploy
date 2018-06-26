@@ -1,0 +1,6 @@
+#!/bin/sh
+# vim: set ft=shell
+
+set -eu
+
+manifold run $@
