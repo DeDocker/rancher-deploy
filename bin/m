@@ -3,4 +3,11 @@
 
 set -eu
 
-manifold run $@
+MENVFILE="/tmp/manifold.env.cache"
+
+if [ ! -f "$MENVFILE" ]; then
+  manifold export --team $MANIFOLD_TEAM --project $MANIFOLD_PROJECT --format env > $MENVFILE
+fi
+
+eval $(grep -v -e '^#' $MENVFILE | xargs -I {} echo export \'{}\')
+${@:2}

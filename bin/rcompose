@@ -1,0 +1,3 @@
+#!/bin/sh
+m -- rancher-compose -r "$RANCHER_CONFIG_DIR/rancher-compose.yml" -f "$RANCHER_CONFIG_DIR/docker-compose.yml" -p "$RANCHER_STACK_NAME" $@
+sleep 10

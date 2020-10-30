@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
+sleep 10
