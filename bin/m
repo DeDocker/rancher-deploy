@@ -1,9 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 # vim: set ft=shell
 
-set -eu
+#set -eu
 
 MENVFILE="/tmp/manifold.env.cache"
+
+if [ -z "$MANIFOLD_TEAM" ]; then
+  echo Please set global variable MANIFOLD_TEAM in Gitlab project settings
+  exit 1
+fi
+
+if [ -z "$MANIFOLD_PROJECT" ]; then
+  echo Please set global variable MANIFOLD_PROJECT in Gitlab project settings
+  exit 1
+fi
 
 if [ ! -f "$MENVFILE" ]; then
   manifold export --team $MANIFOLD_TEAM --project $MANIFOLD_PROJECT --format env > $MENVFILE
