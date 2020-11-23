@@ -12,10 +12,10 @@ RUN /install/rancher-cli.sh
 COPY install/rancher-compose.sh /install/rancher-compose.sh
 RUN /install/rancher-compose.sh
 
-COPY ./install/torus-cli.sh /install/torus-cli.sh
-RUN /install/torus-cli.sh \
-    && torus prefs set core.hints false \
-    && torus prefs set core.progress false
+#COPY ./install/torus-cli.sh /install/torus-cli.sh
+#RUN /install/torus-cli.sh \
+#    && torus prefs set core.hints false \
+#    && torus prefs set core.progress false
 
 COPY ./install/jo.sh /install/jo.sh
 RUN /install/jo.sh
