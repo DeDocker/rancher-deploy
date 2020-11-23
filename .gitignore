@@ -1,3 +1,5 @@
+envs/
+create-docker-image.sh
 
 # Created by https://www.gitignore.io/api/vim
 
