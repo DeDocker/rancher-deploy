@@ -5,6 +5,11 @@
 
 MENVFILE="/tmp/manifold.env.cache"
 
+if [ -z "$MANIFOLD_API_KEY" ]; then
+  ${@:2}
+  exit 0
+fi
+
 if [ -z "$MANIFOLD_TEAM" ]; then
   echo Please set global variable MANIFOLD_TEAM in Gitlab project settings
   exit 1
