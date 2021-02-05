@@ -5,7 +5,7 @@
 
 MENVFILE="/tmp/manifold.env.cache"
 
-if [ -z "$MANIFOLD_API_KEY" ]; then
+if [ -z "$MANIFOLD_API_TOKEN" ]; then
   ${@:2}
   exit 0
 fi
