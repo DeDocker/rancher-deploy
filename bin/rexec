@@ -1,4 +1,8 @@
 #!/bin/bash
-set -eu
-m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2} 2>&1 >&1
-sleep 7
+#set -eu
+
+TMPOUT=$(mktemp)
+m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2} &>$TMPOUT
+cat $TMPOUT
+rm $TMPOUT
+sleep 2
