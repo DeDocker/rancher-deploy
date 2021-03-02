@@ -1,8 +1,10 @@
 #!/bin/bash
-#set -eu
+set -eu
 
-TMPOUT=$(mktemp)
-m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2} &>$TMPOUT
-cat $TMPOUT
-rm $TMPOUT
+if [ -z "$MANIFOLD_API_TOKEN" ]; then
+  rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
+else
+  m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
+fi
+
 sleep 2
