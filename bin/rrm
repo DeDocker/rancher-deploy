@@ -1,3 +1,0 @@
-#!/bin/bash
-m -- rancher rm "${RANCHER_STACK_NAME}/${1}" ${@:2}
-sleep 2

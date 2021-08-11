@@ -1,3 +1,0 @@
-#!/bin/bash
-m -- stack-group-add $1
-m -- stack-group-add $2

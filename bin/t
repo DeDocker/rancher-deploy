@@ -1,6 +1,0 @@
-#!/bin/sh
-# vim: set ft=shell
-
-set -eu
-
-torus run -s "$TORUS_SERVICE" -e "$TORUS_ENV" $@
