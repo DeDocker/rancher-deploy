@@ -1,10 +1,6 @@
 #!/bin/bash
 set -eu
 
-if [ -n "${MANIFOLD_API_TOKEN:-}" ]; then
-  m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
-else
-  rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
-fi
+rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
 
 sleep 2
