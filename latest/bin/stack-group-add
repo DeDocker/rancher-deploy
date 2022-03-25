@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -eu
-
 api ()
 {
     declare -r URL="$1"
@@ -49,3 +47,5 @@ else
     add_group > /dev/null
     echo "Stack was added to group [$GROUP]"
 fi
+
+exit 0
