@@ -1,9 +1,9 @@
 #!/bin/sh
 
-m -- rancher-compose -r "$RANCHER_CONFIG_DIR/rancher-compose.yml" -f "$RANCHER_CONFIG_DIR/docker-compose.yml" -p "$RANCHER_STACK_NAME" $@
+rancher-compose -r "$RANCHER_CONFIG_DIR/rancher-compose.yml" -f "$RANCHER_CONFIG_DIR/docker-compose.yml" -p "$RANCHER_STACK_NAME" $@
 
 if [ "$1" = "up" ] || [ "$1" = "upgrade" ] || [ "$1" = "scale" ]; then
-  sleep 5
+  sleep 4
 else 
   sleep 2
 fi

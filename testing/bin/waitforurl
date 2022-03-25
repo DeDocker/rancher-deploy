@@ -5,7 +5,8 @@
 #
 
 SCRIPT_NAME=${0##*/}
-sleep 3
+
+sleep 5
 
 echoerr() { if [[ $QUIET -ne 1 ]]; then echo "$@" 1>&2; fi }
 
@@ -14,11 +15,12 @@ usage()
     cat << USAGE >&2
 Usage:
     $SCRIPT_NAME uri [-s] [-t timeout] [-- COMMAND ARGS]
-    uri                             a valid http(s) URI
-    -s | --strict                   Only execute COMMAND if the test succeeds
-    -q | --quiet                    Don't output any status messages
-    -t TIMEOUT | --timeout=TIMEOUT  Timeout in seconds, zero for no timeout, timeout must be ≥ 4
-    -- COMMAND ARGS                 Command with args to run after the test finishes
+    uri                         a valid http(s) URI
+    -s | --strict               Only execute COMMAND if the test succeeds
+    -q | --quiet                Don't output any status messages
+    -t TIMEOUT | --timeout=TIMEOUT
+                                Timeout in seconds, zero for no timeout
+    -- COMMAND ARGS             Command with args to run after the test finishes
 USAGE
     exit 1
 }
@@ -33,7 +35,7 @@ wait_for()
     WAIT_START_TS=$(date +%s)
     while :
     do
-        STATUS_CODE=$(curl --connect-timeout 2 -L --insecure -s -o /dev/null -w ''%{http_code}'' $URI)
+        STATUS_CODE=$(curl --connect-timeout 2 --insecure -s -o /dev/null -w ''%{http_code}'' $URI)
         test "$STATUS_CODE" == "200"
         OUTCOME=$?
         if [[ $OUTCOME -eq 0 ]]; then
@@ -144,6 +146,7 @@ QUIET=${QUIET:-0}
 # Check to see if timeout is from busybox?
 TIMEOUT_PATH=$(type -p timeout)
 TIMEOUT_PATH=$(realpath $TIMEOUT_PATH 2>/dev/null || readlink -f $TIMEOUT_PATH)
+
 BUSY_BOX_TIMEFLAG=""
 if [[ $TIMEOUT_PATH =~ "busybox" ]]; then
     ON_BUSY_BOX=1

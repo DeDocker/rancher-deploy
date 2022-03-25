@@ -1,7 +1,7 @@
-FROM alpine:latest
+FROM alpine:3.15
 
-RUN apk update; \
-	apk add --no-cache curl gettext jq docker bash
+RUN apk update
+RUN apk add --no-cache bash curl gettext jq docker expect util-linux-misc
 
 COPY install/rancher-cli.sh /install/rancher-cli.sh
 RUN /install/rancher-cli.sh

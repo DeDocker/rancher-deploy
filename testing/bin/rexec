@@ -1,10 +1,17 @@
 #!/bin/bash
 set -eu
 
-if [ -n "${MANIFOLD_API_TOKEN:-}" ]; then
-  m -- rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
-else
-  rancher exec "${RANCHER_STACK_NAME}/${1}" ${@:2}
-fi
+echo "Executing on ${RANCHER_STACK_NAME}/${1} command: ${@:2}"
+cmd=${@:2}
+
+script --return --quiet -f --command "rancher exec ${RANCHER_STACK_NAME}/${1} sh -c '${cmd[@]} > /proc/self/fd/1 2>&1'"
+
+rancher logs ${RANCHER_STACK_NAME}/${1}
+
+# sleep 10
+# unbuffer rancher exec ${RANCHER_STACK_NAME}/${1} sh -c 'cat exec.out'
+# sleep 10
+
+echo "end"
 
 sleep 2

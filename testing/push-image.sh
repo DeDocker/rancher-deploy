@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASEIMAGE="desmart/rancher-deploy:latest"
+BASEIMAGE="desmart/rancher-deploy:testing"
 
 docker build . -f Dockerfile -t ${BASEIMAGE}
 
