@@ -8,11 +8,10 @@ SCRIPT_NAME=${0##*/}
 
 sleep 5
 
-echoerr() { if [[ $QUIET -ne 1 ]]; then echo "$@" 1>&2; fi }
+echoerr() { if [[ $QUIET -ne 1 ]]; then echo "$@" 1>&2; fi; }
 
-usage()
-{
-    cat << USAGE >&2
+usage() {
+    cat <<USAGE >&2
 Usage:
     $SCRIPT_NAME uri [-s] [-t timeout] [-- COMMAND ARGS]
     uri                         a valid http(s) URI
@@ -25,17 +24,16 @@ USAGE
     exit 1
 }
 
-wait_for()
-{
+wait_for() {
     if [[ $TIMEOUT -gt 0 ]]; then
         echoerr "waiting $TIMEOUT seconds for $URI"
     else
         echoerr "waiting for $URI without a timeout"
     fi
     WAIT_START_TS=$(date +%s)
-    while :
-    do
-        STATUS_CODE=$(curl --connect-timeout 2 --insecure -s -o /dev/null -w ''%{http_code}'' $URI)
+    while :; do
+        STATUS_CODE=$(curl -L --connect-timeout 2 --insecure -s -o /dev/null -w ''%{http_code}'' $URI)
+
         test "$STATUS_CODE" == "200"
         OUTCOME=$?
         if [[ $OUTCOME -eq 0 ]]; then
@@ -49,8 +47,7 @@ wait_for()
 }
 
 # passes this script and its arguments to timeout (the script calls itself inside a timeout context)
-wait_for_wrapper()
-{
+wait_for_wrapper() {
     # In order to support SIGINT during timeout: http://unix.stackexchange.com/a/57692
     if [[ $QUIET -eq 1 ]]; then
         timeout $BUSY_BOX_TIMEFLAG $TIMEOUT $0 $URI --quiet --child --timeout=$TIMEOUT &
@@ -67,8 +64,7 @@ wait_for_wrapper()
     return $OUTCOME
 }
 
-validate_uri()
-{
+validate_uri() {
     curl --connect-timeout 1 --insecure -s -o /dev/null $URI
     curl_exit_code=$?
     if [[ $curl_exit_code -eq 3 ]]; then # exit code 3 indicates an invalid URI
@@ -78,54 +74,53 @@ validate_uri()
 }
 
 # process arguments
-while [[ $# -gt 0 ]]
-do
+while [[ $# -gt 0 ]]; do
     case "$1" in
-        http://*)
-            URI="$1"
-            if [[ $URI == "" ]]; then break; fi
-            shift 1
+    http://*)
+        URI="$1"
+        if [[ $URI == "" ]]; then break; fi
+        shift 1
         ;;
-        https://*)
-            URI="$1"
-            if [[ $URI == "" ]]; then break; fi
-            shift 1
+    https://*)
+        URI="$1"
+        if [[ $URI == "" ]]; then break; fi
+        shift 1
         ;;
-        --child)
-            CHILD=1
-            shift 1
+    --child)
+        CHILD=1
+        shift 1
         ;;
-        -q | --quiet)
-            QUIET=1
-            shift 1
+    -q | --quiet)
+        QUIET=1
+        shift 1
         ;;
-        -s | --strict)
-            STRICT=1
-            shift 1
+    -s | --strict)
+        STRICT=1
+        shift 1
         ;;
-        -t)
-            TIMEOUT="$2"
-            if [[ $TIMEOUT == "" ]]; then break; fi
-            shift 2
+    -t)
+        TIMEOUT="$2"
+        if [[ $TIMEOUT == "" ]]; then break; fi
+        shift 2
         ;;
-        --timeout=*)
-            TIMEOUT="${1#*=}"
-            shift 1
+    --timeout=*)
+        TIMEOUT="${1#*=}"
+        shift 1
         ;;
-        --)
-            shift
-            COMMAND=("$@")
-            break
+    --)
+        shift
+        COMMAND=("$@")
+        break
         ;;
-        -h)
-            usage
+    -h)
+        usage
         ;;
-        --help)
-            usage
+    --help)
+        usage
         ;;
-        *)
-            echoerr "Unknown argument: $1"
-            usage
+    *)
+        echoerr "Unknown argument: $1"
+        usage
         ;;
     esac
 done
@@ -136,7 +131,6 @@ if [[ "$URI" == "" ]]; then
     usage
 fi
 validate_uri
-
 
 TIMEOUT=${TIMEOUT:-15}
 STRICT=${STRICT:-0}
