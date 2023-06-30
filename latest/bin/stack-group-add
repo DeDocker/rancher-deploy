@@ -8,13 +8,13 @@ api ()
     curl -u "${RANCHER_ACCESS_KEY}:${RANCHER_SECRET_KEY}" \
         -H 'Content-Type: application/json' \
         -fs \
-        $@ \
+        "$@" \
         "${RANCHER_URL}/v2-beta${URL}"
 }
 
 get_env_id ()
 {
-    api "/projects?name=${RANCHER_ENVIRONMENT}" | jq -r '.data[0].id'
+    api "/projects" | jq -r '.data[0].id'
 }
 
 get_stack_id ()
@@ -29,22 +29,27 @@ get_groups ()
 
 add_group ()
 {
-    declare -r DATA=$(echo "${STACK_GROUPS},${GROUP}" | sed -e 's/^null,//')
+    local data
+    data=$(echo "${STACK_GROUPS},${GROUP}" | sed -e 's/^null,//')
     
     api "/projects/${ENV_ID}/stacks/${STACK_ID}" \
         -X PUT \
-        -d '{"group":"'"$DATA"'"}'
+        -d "{\"group\":\"$data\",\"description\":\"$HOSTNAME\"}" > /dev/null
 }
 
+# shellcheck disable=SC2155
 declare -r GROUP="$1"
-declare -r ENV_ID=$(get_env_id)
+# shellcheck disable=SC2155
+declare -r ENV_ID=$(get_env_id) 
+# shellcheck disable=SC2155
 declare -r STACK_ID=$(get_stack_id)
+# shellcheck disable=SC2155
 declare -r STACK_GROUPS=$(get_groups)
 
 if echo "$STACK_GROUPS" | grep -q "$GROUP"; then
-    echo "Stack is in group [$GROUP]"
+    echo "Stack is already in group [$GROUP]"
 else
-    add_group > /dev/null
+    add_group
     echo "Stack was added to group [$GROUP]"
 fi
 
